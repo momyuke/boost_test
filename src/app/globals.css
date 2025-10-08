@@ -1,26 +1,77 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --white: #ffffff;
+  --black: #000000;
+  --yellow-55: #FFD11A;
+  --yellow-60: #FFD633;
+  --yellow-70: #FFE066;
+  --yellow-80: #FFEB99;
+  --yellow-90: #FFF5CC;
+  --yellow-95: #FFFAE5;
+  --yellow-97: #FFFCF0;
+  --yellow-99: #FBFBFE;
+
+  --dark-08: #141414;
+  --dark-10: #1A1A1A;
+  --dark-15: #262626;
+  --dark-20: #333333;
+  --dark-25: #404040;
+  --dark-30: #4D4D4D;
+  --dark-35: #595959;
+  --dark-40: #666666;
+
+  --grey-50: #7E7E81;
+  --grey-60: #98989A;
+  --grey-70: #B3B3B3;
+  --grey-80: #CCCCCC;
+  --grey-90: #E4E4E7;
+  --grey-95: #F1F1F3;
+  --grey-97: #F7F7F8;
+  --grey-99: #FCFCFD;
+
+  /* --white: #fff */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-kumbh-sans);
+  --font-inter: var(--font-inter);
+  --color-white: var(--white);
+  --color-black: var(--black);
+  --color-yellow-55: var(--yellow-55);
+  --color-yellow-60: var(--yellow-60);
+  --color-yellow-70: var(--yellow-70);
+  --color-yellow-80: var(--yellow-80);
+  --color-yellow-90: var(--yellow-90);
+  --color-yellow-95: var(--yellow-95);
+  --color-yellow-97: var(--yellow-97);
+  --color-yellow-99: var(--yellow-99);
+
+  --color-dark-08: var(--dark-08);
+  --color-dark-10: var(--dark-10);
+  --color-dark-15: var(--dark-15);
+  --color-dark-20: var(--dark-20);
+  --color-dark-25: var(--dark-25);
+  --color-dark-30: var(--dark-30);
+  --color-dark-35: var(--dark-35);
+  --color-dark-40: var(--dark-40);
+
+  --color-grey-50: var(--grey-50);
+  --color-grey-60: var(--grey-60);
+  --color-grey-70: var(--grey-70);
+  --color-grey-80: var(--grey-80);
+  --color-grey-90: var(--grey-90);
+  --color-grey-95: var(--grey-95);
+  --color-grey-97: var(--grey-97);
+  --color-grey-99: var(--grey-99);
+
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+body {}
