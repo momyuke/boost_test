@@ -35,7 +35,6 @@
 
 @theme inline {
   --font-sans: var(--font-kumbh-sans);
-  --font-inter: var(--font-inter);
   --color-white: var(--white);
   --color-black: var(--black);
   --color-yellow-55: var(--yellow-55);

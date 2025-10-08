@@ -1,55 +1,54 @@
-'use client'
+"use client";
 
-import { IBlog } from "@/domains/blog.domain";
+import { IBlog, ICreateBlog, mockBlogs } from "@/domains/blog.domain";
 import { createContext, ReactNode, useState } from "react";
 
 type TBlogsContext = {
-    blogs: IBlog[],
-    setBlogs: React.Dispatch<React.SetStateAction<IBlog[]>>
-}
+  blogs: IBlog[];
+  setBlogs: React.Dispatch<React.SetStateAction<IBlog[]>>;
+};
 
 type TSelectedBlogContext = {
-    selectedBlog: IBlog,
-    setSelectedBlog: React.Dispatch<React.SetStateAction<IBlog>>
-}
+  selectedBlog: IBlog;
+  setSelectedBlog: React.Dispatch<React.SetStateAction<IBlog>>;
+};
 
 type TCreateBlogContext = {
-    createBlog: IBlog,
-    setCreateBlog: React.Dispatch<React.SetStateAction<IBlog>>
-}
-
+  createBlog: ICreateBlog;
+  setCreateBlog: React.Dispatch<React.SetStateAction<ICreateBlog>>;
+};
 
 export const BlogsContext = createContext<TBlogsContext>({
-    blogs: [],
-    setBlogs: () => [],
-})
+  blogs: [],
+  setBlogs: () => [],
+});
 
 export const SelectedBlogContext = createContext<TSelectedBlogContext>({
-    selectedBlog: {},
-    setSelectedBlog: () => { },
-})
+  selectedBlog: {},
+  setSelectedBlog: () => {},
+});
 
 export const CreateBlogContext = createContext<TCreateBlogContext>({
-    createBlog: {},
-    setCreateBlog: () => { },
-})
+  createBlog: {},
+  setCreateBlog: () => {},
+});
 
 interface IBlogProviderProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export function BlogProvider({ children }: IBlogProviderProps) {
-    const [blogs, setBlogs] = useState<IBlog[]>([]);
-    const [selectedBlog, setSelectedBlog] = useState<IBlog>({});
-    const [createBlog, setCreateBlog] = useState<IBlog>({});
+  const [blogs, setBlogs] = useState<IBlog[]>(mockBlogs);
+  const [selectedBlog, setSelectedBlog] = useState<IBlog>({});
+  const [createBlog, setCreateBlog] = useState<ICreateBlog>({});
 
-    return (
-        <BlogsContext value={{ blogs, setBlogs }}>
-            <SelectedBlogContext value={{ selectedBlog, setSelectedBlog }}>
-                <CreateBlogContext value={{ createBlog, setCreateBlog }}>
-                    {children}
-                </CreateBlogContext>
-            </SelectedBlogContext>
-        </BlogsContext>
-    )
+  return (
+    <BlogsContext value={{ blogs, setBlogs }}>
+      <SelectedBlogContext value={{ selectedBlog, setSelectedBlog }}>
+        <CreateBlogContext value={{ createBlog, setCreateBlog }}>
+          {children}
+        </CreateBlogContext>
+      </SelectedBlogContext>
+    </BlogsContext>
+  );
 }

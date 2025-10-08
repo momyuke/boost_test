@@ -1,21 +1,16 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { BlogProvider } from "@/core/context/blog.context";
+import { ModalProvider } from "@/core/context/modal.context";
+import { PaginationsProvider } from "@/core/context/pagination.context";
 import type { Metadata } from "next";
-import { Inter, Kumbh_Sans } from "next/font/google";
+import { Kumbh_Sans } from "next/font/google";
 import "./globals.css";
-
 
 const kumbhSans = Kumbh_Sans({
   variable: "--font-kumbh-sans",
   subsets: ["latin"],
 });
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
 
 export const metadata: Metadata = {
   title: "Blog Tech",
@@ -29,14 +24,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} bg-dark-08 ${kumbhSans.variable} antialiased`}
-      >
-        <BlogProvider>
-          <Navbar />
-          {children}
-          <Footer />
-        </BlogProvider>
+      <body className={`bg-dark-08 ${kumbhSans.variable} antialiased`}>
+        <ModalProvider>
+          <PaginationsProvider>
+            <BlogProvider>
+              <Navbar />
+              {children}
+              <Footer />
+            </BlogProvider>
+          </PaginationsProvider>
+        </ModalProvider>
       </body>
     </html>
   );

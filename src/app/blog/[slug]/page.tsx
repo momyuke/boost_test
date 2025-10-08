@@ -1,86 +1,133 @@
+"use client";
 import { BlogCard } from "@/components/BlogCard";
 import { BlogMetaData } from "@/components/BlogMetaData";
+import { useBlogsData } from "@/core/hooks/useBlogsData";
+import { formatDateToReadable } from "@/core/utils/dateUtils";
+import { IBlog } from "@/domains/blog.domain";
+import { use } from "react";
 
-export default function Page() {
+export default function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = use(params);
+  const { findBlogById } = useBlogsData();
+  const blog = findBlogById(slug);
+
+  if (blog == null) {
+    return (
+      <main className="flex min-h-screen font-sans flex-col justify-center items-center max-w-[1920px] ">
+        <h1 className="text-white">Oops no data found</h1>
+      </main>
+    );
+  }
+
   return (
-    <main className="flex font-sans flex-col justify-center items-center max-w-[1920px]">
-      <BlogHeroBanner />
-      <BlogContentWrapper />
+    <main className="flex pt-20 font-sans flex-col justify-center items-center max-w-[1920px] ">
+      <BlogHeroBanner title={blog?.title} />
+      <BlogContentWrapper blog={blog} />
+      <SimilarNewsSection category={blog.category ?? ""} />
     </main>
   );
 }
 
-const BlogHeroBanner = () => {
+interface IBlogHeroBanner {
+  title?: string;
+}
+const BlogHeroBanner = ({ title }: IBlogHeroBanner) => {
   return (
     <div className="relative w-full h-100  overflow-hidden shadow-lg">
       <div className="absolute inset-0 bg-cover bg-center bg-[url(https://picsum.photos/1920/1080.jpg)]" />
       <div className="absolute inset-0 bg-gradient-to-t from-dark-08/80 to-transparent" />
       <h1 className="absolute bottom-0 p-10 text-white font-bold text-2xl md:text-[52px] w-[100%] text-center">
-        The Rise of Artificial Intelligence in Healthcare
+        {title}
       </h1>
     </div>
   );
 };
 
 interface IBlogDescriptionProps {
-  description: string;
+  summary?: string;
+  content?: string;
 }
-const BlogDescription = ({ description }: IBlogDescriptionProps) => {
+const BlogDescription = ({ summary, content }: IBlogDescriptionProps) => {
   return (
     <div className="flex-8 text-grey-60 text-left text-[18px]/[200%] text-grey-60 text-left text-[18px]">
       <section className=" p-[80px] border-r border-b border-dark-15">
-        <p className="">{description}</p>
+        <p className="">{summary}</p>
       </section>
       <section className=" p-[80px] border-r border-b border-dark-15">
-        <p className="">{description}</p>
+        <p className="">{content}</p>
       </section>
     </div>
   );
 };
 
-const BlogMetadataSection = () => {
+interface IBlogMetadataSectionProps {
+  category?: string;
+  publicationDate?: Date;
+  author?: string;
+}
+const BlogMetadataSection = ({
+  author,
+  category,
+  publicationDate,
+}: IBlogMetadataSectionProps) => {
   return (
     <section className="flex-3 p-[80px] max-h-[400px] gap-[2em] flex flex-wrap border-b border-dark-15">
       <BlogMetaData
         classNames="h-[50px]"
-        description="Environment"
+        description={category ?? ""}
         type="Category"
       />
       <BlogMetaData
         classNames="h-[50px]"
-        description="October 02, 2025"
+        description={formatDateToReadable(publicationDate)}
         type="Publication Date"
       />
       <BlogMetaData
         classNames="h-[50px]"
-        description="Jane Smith"
+        description={author ?? ""}
         type="Author"
       />
     </section>
   );
 };
 
-const SimilarNewsSection = () => {
+interface ISimilarNewsSectionProps {
+  category: string;
+}
+const SimilarNewsSection = ({ category }: ISimilarNewsSectionProps) => {
+  const { getSimilarBlogs } = useBlogsData();
+
   return (
-    <section className="p-[80px] flex flex-col justify-center gap-[2em]">
+    <section className="p-[80px] w-[100%] flex flex-col justify-center gap-[2em]">
       <h2 className="text-white text-[28px]">Similar News</h2>
       <div className="flex md:flex-row flex-col md:justify-between gap-[2em]">
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
+        {getSimilarBlogs(category)
+          .slice(0, 3)
+          .map((e, i) => (
+            <BlogCard blog={e} key={i} />
+          ))}
       </div>
     </section>
   );
 };
 
-const BlogContentWrapper = () => {
+interface IBlogContentWrapperProps {
+  blog?: IBlog;
+}
+const BlogContentWrapper = ({ blog }: IBlogContentWrapperProps) => {
+  const { author, category, content, publishDate, summary } = blog ?? {};
   return (
-    <section>
-      <div className="w-[100%] flex md:flex-row flex-col">
-        <BlogDescription description="Artificial Intelligence (AI) has permeated virtually every aspect of our lives, and healthcare is no exception. The integration of AI in healthcare is ushering in a new era of medical practice, where machines complement the capabilities of healthcare professionals, ultimately improving patient outcomes and the efficiency of the healthcare system. In this blog post, we will delve into the diverse applications of AI in healthcare, from diagnostic imaging to personalized treatment plans, and address the ethical considerations surrounding this revolutionary technology." />
-        <BlogMetadataSection />
-      </div>
-      <SimilarNewsSection />
+    <section className="w-[100%] flex md:flex-row flex-col">
+      <BlogDescription summary={summary} content={content} />
+      <BlogMetadataSection
+        author={author}
+        category={category}
+        publicationDate={publishDate}
+      />
     </section>
   );
 };
