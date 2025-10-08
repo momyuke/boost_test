@@ -3,13 +3,18 @@ import { Button } from "@/components/Button";
 import { formatDateToReadable } from "@/core/utils/dateUtils";
 import { IBlog } from "@/domains/blog.domain";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface IBlogCardProps {
   blog: IBlog;
 }
 export const BlogCard = ({ blog }: IBlogCardProps) => {
   const { title, category, publishDate, author, id } = blog;
+  const router = useRouter();
+
+  const onReadMore = () => {
+    router.push(`/blog/${id}`);
+  };
 
   return (
     <div className="flex-1 min-w-[400px] max-w-[400px] h-[550px] flex flex-col gap-[1em]">
@@ -33,11 +38,12 @@ export const BlogCard = ({ blog }: IBlogCardProps) => {
         </div>
       </div>
 
-      <Link href={`/blog/${id}`}>
-        <Button classNames="w-[100%] bg-dark-08 hover:bg-dark-10 hover:text-dark- py-[18px] px[24px] text-grey-60 border-dark-15 border rounded-[12px] ">
-          Read more
-        </Button>
-      </Link>
+      <Button
+        onClick={onReadMore}
+        classNames="w-[100%] bg-dark-08 hover:bg-dark-10 hover:text-dark- py-[18px] px[24px] text-grey-60 border-dark-15 border rounded-[12px] "
+      >
+        Read more
+      </Button>
     </div>
   );
 };

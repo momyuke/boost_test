@@ -5,6 +5,7 @@ interface IDropdownProps {
   name: string;
   defaultValue?: string;
   readonly?: boolean;
+  required?: boolean;
 }
 
 export const Dropdown = ({
@@ -14,6 +15,7 @@ export const Dropdown = ({
   name,
   defaultValue,
   readonly = false,
+  required,
 }: IDropdownProps) => {
   if (displayData == null) displayData = data;
   if (data.length !== displayData?.length) return;
@@ -22,6 +24,7 @@ export const Dropdown = ({
     <>
       <label className="text-white">{label}</label>
       <select
+        required={required}
         disabled={readonly}
         className="text-white bg-dark-25 p-5 rounded-lg"
         name={name}

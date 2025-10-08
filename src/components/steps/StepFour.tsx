@@ -19,7 +19,7 @@ export const StepFour = () => {
       publishDate: new Date(Date.now()),
       id: crypto.randomUUID(),
     } as IBlog;
-    setBlogs((e) => [...e, newData]);
+    setBlogs((e) => [newData, ...e]);
     setCreateBlog((_) => {
       return { step: 1 };
     });

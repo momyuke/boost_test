@@ -5,7 +5,7 @@ export interface IPagination {
 
 export const defaultPagination = {
   page: 1,
-  perPage: 2,
+  perPage: 5,
 };
 
 export const PaginationKeys = {

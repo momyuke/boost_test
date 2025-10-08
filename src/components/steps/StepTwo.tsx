@@ -41,6 +41,7 @@ export const StepTwo = () => {
           data={blogCategories}
           name="category"
           label="Category"
+          required
           defaultValue={createBlog.category ?? "Select your blog category"}
         />
 
