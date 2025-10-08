@@ -5,20 +5,19 @@ import { ButtonStepper } from "@/components/steps/ButtonStepper";
 import { BlogsContext, CreateBlogContext } from "@/core/context/blog.context";
 import { useModalData } from "@/core/hooks/useModalData";
 import { blogCategories, IBlog } from "@/domains/blog.domain";
-import { FormEvent, use, useId } from "react";
+import { FormEvent, use } from "react";
 
 export const StepFour = () => {
   const { createBlog, setCreateBlog } = use(CreateBlogContext);
   const { setBlogs } = use(BlogsContext);
   const { title, author, category, content, summary } = createBlog;
   const { openModal } = useModalData({ modalKey: "success" });
-  const id = useId();
   const onSubmit = (formElement: FormEvent<HTMLFormElement>) => {
     formElement.preventDefault();
     const newData = {
       ...createBlog,
       publishDate: new Date(Date.now()),
-      id,
+      id: crypto.randomUUID(),
     } as IBlog;
     setBlogs((e) => [...e, newData]);
     setCreateBlog((_) => {
